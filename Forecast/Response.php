@@ -44,6 +44,11 @@ class Response
     protected $offset;
 
     /**
+     * @JMS\Type("CTI\ForecastBundle\Forecast\DataPoint")
+     */
+    protected $currently;
+
+    /**
      * @return mixed
      */
     public function getIcon()
