@@ -29,6 +29,7 @@ class DataPoint
      * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) at which this data point occurs.
      *
      * @JMS\Type("integer")
+     * @var integer
      */
     protected $time;
 
@@ -36,6 +37,7 @@ class DataPoint
      * A human-readable text summary of this data point.
      *
      * @JMS\Type("string")
+     * @var string
      */
     protected $summary;
 
@@ -54,6 +56,7 @@ class DataPoint
      * -> partly-cloudy-night.
      *
      * @JMS\Type("string")
+     * @var string
      */
     protected $icon;
 
@@ -62,6 +65,7 @@ class DataPoint
      * the solar noon closest to local noon on the given day.
      *
      * @JMS\Type("integer")
+     * @var integer
      */
     protected $sunriseTime;
 
@@ -70,13 +74,15 @@ class DataPoint
      * the solar noon closest to local noon on the given day.
      *
      * @JMS\Type("integer")
+     * @var integer
      */
     protected $sunsetTime;
 
     /**
      * A numerical value representing the distance to the nearest storm in miles.
      *
-     * @JMS\Type("integer")
+     * @JMS\Type("float")
+     * @var float
      */
     protected $nearestStormDistance;
 
@@ -85,7 +91,8 @@ class DataPoint
      * with true north at 0° and progressing clockwise.
      * (If nearestStormDistance is zero, then this value will not be defined.)
      *
-     * @JMS\Type("integer")
+     * @JMS\Type("float")
+     * @var float
      */
     protected $nearestStormBearing;
 
@@ -98,13 +105,15 @@ class DataPoint
      * 0.1 in./hr. corresponds to moderate precipitation, and 0.4 in./hr. corresponds to heavy precipitation.
      *
      * @JMS\Type("float")
+     * @var float
      */
     protected $precipIntensity;
 
     /**
      * the maximumum expected intensity of precipitation
      *
-     * @JMS\Type("float")
+     * @JMS\Type("double")
+     * @var float
      */
     protected $precipIntensityMax;
 
@@ -112,13 +121,15 @@ class DataPoint
      * the UNIX time at which the maximumum expected intensity of precipitation occurs
      *
      * @JMS\Type("integer")
+     * @var float
      */
     protected $precipIntensityMaxTime;
 
     /**
      * the probability of precipitation occuring at the given time
      *
-     * @JMS\Type("float")
+     * @JMS\Type("double")
+     * @var float
      */
     protected $precipProbability;
 
@@ -129,6 +140,7 @@ class DataPoint
      * (If precipIntensity is zero, then this property will not be defined.)
      *
      * @JMS\Type("string")
+     * @var string
      */
     protected $precipType;
 
@@ -136,26 +148,31 @@ class DataPoint
      * A numerical value representing the temperature at the given time in degrees Fahrenheit
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $temperature;
 
     /**
      * @JMS\Type("double")
+     * @var float
      */
     protected $temperatureMin;
 
     /**
      * @JMS\Type("integer")
+     * @var integer
      */
     protected $temperatureMinTime;
 
     /**
      * @JMS\Type("double")
+     * @var float
      */
     protected $temperatureMax;
 
     /**
      * @JMS\Type("integer")
+     * @var integer
      */
     protected $temperatureMaxTime;
 
@@ -163,26 +180,31 @@ class DataPoint
      * A numerical value representing the apparent (or "feels like") temperature at the given time in degrees Fahrenheit
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $apparentTemperature;
 
     /**
      * @JMS\Type("double")
+     * @var float
      */
     protected $apparentTemperatureMin;
 
     /**
      * @JMS\Type("integer")
+     * @var integer
      */
     protected $apparentTemperatureMinTime;
 
     /**
      * @JMS\Type("double")
+     * @var float
      */
     protected $apparentTemperatureMax;
 
     /**
      * @JMS\Type("integer")
+     * @var integer
      */
     protected $apparentTemperatureMaxTime;
 
@@ -190,6 +212,7 @@ class DataPoint
      * A numerical value representing the dew point at the given time in degrees Fahrenheit.
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $dewPoint;
 
@@ -197,6 +220,7 @@ class DataPoint
      * A numerical value representing the wind speed in miles per hour.
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $windSpeed;
 
@@ -206,6 +230,7 @@ class DataPoint
      * (If windSpeed is zero, then this value will not be defined.)
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $windBearing;
 
@@ -215,6 +240,7 @@ class DataPoint
      * 0.75 to broken cloud cover, and 1 to completely overcast skies.
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $cloudCover;
 
@@ -222,6 +248,7 @@ class DataPoint
      * A numerical value between 0 and 1 (inclusive) representing the relative humidity.
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $humidity;
 
@@ -229,6 +256,7 @@ class DataPoint
      * A numerical value representing the sea-level air pressure in millibars.
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $pressure;
 
@@ -236,6 +264,7 @@ class DataPoint
      * A numerical value representing the average visibility in miles, capped at 10 miles.
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $visibility;
 
@@ -243,7 +272,248 @@ class DataPoint
      * A numerical value representing the columnar density of total atmospheric ozone at the given time in Dobson units.
      *
      * @JMS\Type("double")
+     * @var float
      */
     protected $ozone;
+
+    /**
+     * @return float
+     */
+    public function getApparentTemperature()
+    {
+        return $this->apparentTemperature;
+    }
+
+    /**
+     * @return float
+     */
+    public function getApparentTemperatureMax()
+    {
+        return $this->apparentTemperatureMax;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getApparentTemperatureMaxTime()
+    {
+        return $this->apparentTemperatureMaxTime;
+    }
+
+    /**
+     * @return float
+     */
+    public function getApparentTemperatureMin()
+    {
+        return $this->apparentTemperatureMin;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getApparentTemperatureMinTime()
+    {
+        return $this->apparentTemperatureMinTime;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCloudCover()
+    {
+        return $this->cloudCover;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDewPoint()
+    {
+        return $this->dewPoint;
+    }
+
+    /**
+     * @return float
+     */
+    public function getHumidity()
+    {
+        return $this->humidity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @return float
+     */
+    public function getNearestStormBearing()
+    {
+        return $this->nearestStormBearing;
+    }
+
+    /**
+     * @return float
+     */
+    public function getNearestStormDistance()
+    {
+        return $this->nearestStormDistance;
+    }
+
+    /**
+     * @return float
+     */
+    public function getOzone()
+    {
+        return $this->ozone;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrecipIntensity()
+    {
+        return $this->precipIntensity;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrecipIntensityMax()
+    {
+        return $this->precipIntensityMax;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getPrecipIntensityMaxTime()
+    {
+        return $this->precipIntensityMaxTime;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrecipProbability()
+    {
+        return $this->precipProbability;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrecipType()
+    {
+        return $this->precipType;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPressure()
+    {
+        return $this->pressure;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSummary()
+    {
+        return $this->summary;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSunriseTime()
+    {
+        return $this->sunriseTime;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSunsetTime()
+    {
+        return $this->sunsetTime;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTemperature()
+    {
+        return $this->temperature;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTemperatureMax()
+    {
+        return $this->temperatureMax;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTemperatureMaxTime()
+    {
+        return $this->temperatureMaxTime;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTemperatureMin()
+    {
+        return $this->temperatureMin;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTemperatureMinTime()
+    {
+        return $this->temperatureMinTime;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    /**
+     * @return float
+     */
+    public function getVisibility()
+    {
+        return $this->visibility;
+    }
+
+    /**
+     * @return float
+     */
+    public function getWindBearing()
+    {
+        return $this->windBearing;
+    }
+
+    /**
+     * @return float
+     */
+    public function getWindSpeed()
+    {
+        return $this->windSpeed;
+    }
 
 }
