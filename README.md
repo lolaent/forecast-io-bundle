@@ -28,6 +28,11 @@ Open up your `composer.json` file, add the `cti/forecast-io-bundle` in the `requ
 }
 ```
 
+In case the install is not working, try lowering the minimum stability of the dependencies, for example:
+```json
+"minimum-stability" : "alpha"
+```
+
 # Developer notes
 
 ## Prepare local environment
