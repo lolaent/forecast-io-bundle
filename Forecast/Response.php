@@ -54,6 +54,16 @@ class Response
     protected $minutely;
 
     /**
+     * @JMS\Type("CTI\ForecastBundle\Forecast\DataBlock")
+     */
+    protected $hourly;
+
+    /**
+     * @JMS\Type("CTI\ForecastBundle\Forecast\DataBlock")
+     */
+    protected $daily;
+
+    /**
      * @return mixed
      */
     public function getIcon()
@@ -107,6 +117,22 @@ class Response
     public function getMinutely()
     {
         return $this->minutely;
+    }
+
+    /**
+     * @return DataBlock
+     */
+    public function getDaily()
+    {
+        return $this->daily;
+    }
+
+    /**
+     * @return DataBlock
+     */
+    public function getHourly()
+    {
+        return $this->hourly;
     }
 
 }

@@ -48,6 +48,24 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataBlock', $data->getMinutely());
         $this->assertInternalType('array', $data->getMinutely()->getData());
         $this->assertEquals(61, count($data->getMinutely()->getData()));
+
+        $this->assertObjectHasAttribute('hourly', $data);
+        $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataBlock', $data->getHourly());
+        $this->assertInternalType('array', $data->getHourly()->getData());
+        $this->assertEquals(49, count($data->getHourly()->getData()));
+        /** @var \CTI\ForecastBundle\Forecast\DataPoint $firstHour */
+        $firstHour = reset($data->getHourly()->getData());
+        $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $firstHour);
+        $this->assertEquals(1409688000, $firstHour->getTime());
+
+        $this->assertObjectHasAttribute('daily', $data);
+        $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataBlock', $data->getDaily());
+        $this->assertInternalType('array', $data->getDaily()->getData());
+        $this->assertEquals(8, count($data->getDaily()->getData()));
+        /** @var \CTI\ForecastBundle\Forecast\DataPoint $firstDay */
+        $firstDay = reset($data->getDaily()->getData());
+        $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $firstDay);
+        $this->assertEquals(1409641200, $firstDay->getTime());
     }
 
 }
