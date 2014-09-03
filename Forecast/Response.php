@@ -31,6 +31,10 @@ class Response
      * @JMS\Type("double")
      */
     protected $longitude;
+
+    /**
+     * @JMS\Type("string")
+     */
     protected $icon;
 
     /**

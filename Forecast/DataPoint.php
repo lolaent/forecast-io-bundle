@@ -104,7 +104,7 @@ class DataPoint
      * 0.002 in./hr. corresponds to very light precipitation, 0.017 in./hr. corresponds to light precipitation,
      * 0.1 in./hr. corresponds to moderate precipitation, and 0.4 in./hr. corresponds to heavy precipitation.
      *
-     * @JMS\Type("float")
+     * @JMS\Type("double")
      * @var float
      */
     protected $precipIntensity;

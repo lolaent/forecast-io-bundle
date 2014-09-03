@@ -44,6 +44,15 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('offset', $data);
         $this->assertEquals(-7, $data->getOffset());
 
+        $this->assertObjectHasAttribute('currently', $data);
+        $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $data->getCurrently());
+        $this->assertEquals(1409688118, $data->getCurrently()->getTime());
+        $this->assertEquals('Clear', $data->getCurrently()->getSummary());
+        $this->assertEquals('clear-day', $data->getCurrently()->getIcon());
+        $this->assertEquals(0, $data->getCurrently()->getPrecipIntensity());
+        $this->assertEquals(0, $data->getCurrently()->getPrecipProbability());
+        $this->assertEquals(63.37, $data->getCurrently()->getTemperature());
+
         $this->assertObjectHasAttribute('minutely', $data);
         $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataBlock', $data->getMinutely());
         $this->assertInternalType('array', $data->getMinutely()->getData());
