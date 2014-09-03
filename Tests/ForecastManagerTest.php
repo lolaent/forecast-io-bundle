@@ -43,6 +43,11 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(-122.423, $data->getLongitude());
         $this->assertObjectHasAttribute('offset', $data);
         $this->assertEquals(-7, $data->getOffset());
+
+        $this->assertObjectHasAttribute('minutely', $data);
+        $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataBlock', $data->getMinutely());
+        $this->assertInternalType('array', $data->getMinutely()->getData());
+        $this->assertEquals(61, count($data->getMinutely()->getData()));
     }
 
 }

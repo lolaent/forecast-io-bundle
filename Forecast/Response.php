@@ -49,6 +49,11 @@ class Response
     protected $currently;
 
     /**
+     * @JMS\Type("CTI\ForecastBundle\Forecast\DataBlock")
+     */
+    protected $minutely;
+
+    /**
      * @return mixed
      */
     public function getIcon()
@@ -86,6 +91,22 @@ class Response
     public function getTimezone()
     {
         return $this->timezone;
+    }
+
+    /**
+     * @return DataPoint
+     */
+    public function getCurrently()
+    {
+        return $this->currently;
+    }
+
+    /**
+     * @return DataBlock
+     */
+    public function getMinutely()
+    {
+        return $this->minutely;
     }
 
 }
