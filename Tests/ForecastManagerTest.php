@@ -6,7 +6,7 @@
 class ForecastManagerTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testGetData() {
+    public function testGetForecast() {
         $client = new \GuzzleHttp\Client();
         $mock = new \GuzzleHttp\Subscriber\Mock(
             array(

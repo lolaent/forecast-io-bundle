@@ -1,7 +1,13 @@
 parameters:
-#    cti_forecast.example.class: CTI\ForecastBundle\Example
+   cti_forecast.class: CTI\ForecastBundle\ForecastManager
+   cti_forecast.rest_client.class: GuzzleHttp\Client
 
 services:
-#    cti_forecast.example:
-#        class: %cti_forecast.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+	# poor man's rest client, the naked Guzzle one
+	cti_forecast.rest_client:
+		class: %cti_forecast.rest_client.class%
+
+	# main forecast service
+    cti_forecast:
+       class: %cti_forecast.class%
+       arguments: [@cti_forecast.rest_client, @jms_serializer]
