@@ -2,14 +2,15 @@
 
 namespace CTI\ForecastBundle;
 
-use GuzzleHttp\ClientInterface;
+use Guzzle\Http\ClientInterface;
+use Guzzle\Http\Message\Response;
 use JMS\Serializer\SerializerInterface;
 
 class ForecastManager
 {
 
     /**
-     * @var \GuzzleHttp\ClientInterface the client used to make the connection
+     * @var \Guzzle\Http\ClientInterface the client used to make the connection
      */
     protected $client;
 
@@ -56,10 +57,12 @@ class ForecastManager
                 )
             )
         );
+
+        /** @var Response $response */
         $response = $this->client->send($request);
 
         return $this->serializer->deserialize(
-            $response->getBody()->getContents(),
+            $response->getBody(),
             'CTI\ForecastBundle\Forecast\Response',
             'json'
         );

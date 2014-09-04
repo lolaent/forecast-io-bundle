@@ -7,13 +7,15 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
 {
 
     public function testGetForecast() {
-        $client = new \GuzzleHttp\Client();
-        $mock = new \GuzzleHttp\Subscriber\Mock(
-            array(
-                file_get_contents(__DIR__ . '/Resources/forecast.txt')
-            )
+        $mockResponse = new \Guzzle\Http\Message\Response(200);
+        $mockResponseBody = \Guzzle\Http\EntityBody::factory(fopen(
+            __DIR__ . '/Resources/forecast.json', 'r')
         );
-        $client->getEmitter()->attach($mock);
+        $mockResponse->setBody($mockResponseBody);
+        $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
+        $plugin->addResponse($mockResponse);
+        $client = new \Guzzle\Http\Client();
+        $client->addSubscriber($plugin);
 
         $namingStrategy = new \JMS\Serializer\Naming\SerializedNameAnnotationStrategy(new \JMS\Serializer\Naming\CamelCaseNamingStrategy());
         $serializer = new \JMS\Serializer\Serializer(
