@@ -1,6 +1,7 @@
 parameters:
   cti_forecast.class: CTI\ForecastBundle\ForecastManager
   cti_forecast.rest_client.class: Guzzle\Http\Client
+  jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
 
 services:
   # poor man's rest client, the naked Guzzle one
