@@ -115,7 +115,10 @@ class ForecastManager
             return new DataPoint();
         }
 
-        return reset($result->getDaily()->getData());
+        /** @var array $data An array with a single DataPoint object */
+        $data = $result->getDaily()->getData();
+
+        return reset($data);
     }
 
     /**
@@ -130,7 +133,7 @@ class ForecastManager
     public function getHourlyWeatherDetails($latitude, $longitude, $dateTime)
     {
         $url = sprintf(
-            'https://api.forecast.io/forecast/%s/%s,%s,%s?exclude=minutely,daily,flags,alerts,currently',
+            'https://api.forecast.io/forecast/%s/%s,%s,%s?exclude=minutely,flags,alerts,currently',
             'e711d8782f6c4c7a7e9c8335721bacde',
             $latitude,
             $longitude,
@@ -160,19 +163,30 @@ class ForecastManager
             'json'
         );
 
+        //if we have no data, return an empty DataPoint
         if (empty($result)) {
             return new DataPoint();
         }
 
+        //if there's no hourly data available use daily data:
+        $hourlyData = $result->getHourly()->getData();
+        $dailyData = $result->getDaily()->getData();
+        if (empty($hourlyData)) {
+            return reset($dailyData);
+        }
+
+        $searchTime = new \DateTime($dateTime, new \DateTimeZone($result->getTimezone()));
+        //set the minutes of the searchTime to 0:
+        $searchTime->setTime($searchTime->format('G'), 0);
         foreach ($result->getHourly()->getData() as $dataPoint) {
             /** @var DataPoint $dataPoint */
-            $forecastTime = \DateTime::createFromFormat( 'U', $dataPoint->getTime(), new \DateTimeZone('GMT'));
-            $searchTime = new \DateTime($dateTime, new \DateTimeZone('GMT'));
+            $forecastTime = \DateTime::createFromFormat( 'U', $dataPoint->getTime());
             if ($forecastTime == $searchTime) {
                 return $dataPoint;
             }
         }
 
+        //as an ultimate fallback, return an empty DataPoint
         return new DataPoint();
     }
 

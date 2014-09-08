@@ -20,7 +20,7 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $client = new \Guzzle\Http\Client();
         $client->addSubscriber($plugin);
 
-        $namingStrategy = new \JMS\Serializer\Naming\SerializedNameAnnotationStrategy(new \JMS\Serializer\Naming\CamelCaseNamingStrategy());
+        $namingStrategy = new \JMS\Serializer\Naming\SerializedNameAnnotationStrategy(new \JMS\Serializer\Naming\IdenticalPropertyNamingStrategy());
         $serializer = new \JMS\Serializer\Serializer(
             new Metadata\MetadataFactory(new \JMS\Serializer\Metadata\Driver\AnnotationDriver(new \Doctrine\Common\Annotations\AnnotationReader())),
             new \JMS\Serializer\Handler\HandlerRegistry(),
@@ -97,25 +97,25 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('precipProbability', $data);
         $this->assertEquals(1409641200, $data->getTime());
         $this->assertEquals('fog', $data->getIcon());
-        //$this->assertEquals(58.36, $data->getTemperatureMin());
-        //$this->assertEquals(65.56, $data->getTemperatureMax());
-        //$this->assertEquals(7.67, $data->getWindSpeed());
+        $this->assertEquals(58.36, $data->getTemperatureMin());
+        $this->assertEquals(65.56, $data->getTemperatureMax());
+        $this->assertEquals(7.67, $data->getWindSpeed());
         $this->assertEquals(0, $data->getPrecipProbability());
     }
 
     public function testGetHourlyWeatherDetails()
     {
-        $data = $this->manager->getHourlyWeatherDetails(37.8267, -122.423, '2014-09-04T12:00:00');
+        $data = $this->manager->getHourlyWeatherDetails(37.8267, -122.423, '2014-09-03T10:25:00');
         $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $data);
         $this->assertObjectHasAttribute('time', $data);
         $this->assertObjectHasAttribute('icon', $data);
         $this->assertObjectHasAttribute('temperature', $data);
         $this->assertObjectHasAttribute('windSpeed', $data);
         $this->assertObjectHasAttribute('precipProbability', $data);
-        $this->assertEquals(1409832000, $data->getTime());
-        $this->assertEquals('partly-cloudy-night', $data->getIcon());
-        $this->assertEquals(59.33, $data->getTemperature());
-        //$this->assertEquals(3.59, $data->getWindSpeed());
+        $this->assertEquals(1409763600, $data->getTime());
+        $this->assertEquals('partly-cloudy-day', $data->getIcon());
+        $this->assertEquals(61.55, $data->getTemperature());
+        $this->assertEquals(1.98, $data->getWindSpeed());
         $this->assertEquals(0, $data->getPrecipProbability());
     }
 
