@@ -5,11 +5,14 @@
 
 class ForecastManagerTest extends PHPUnit_Framework_TestCase
 {
+    /** @var  \CTI\ForecastBundle\ForecastManager */
+    public $manager;
 
-    public function testGetForecast() {
+    public function setUp()
+    {
         $mockResponse = new \Guzzle\Http\Message\Response(200);
         $mockResponseBody = \Guzzle\Http\EntityBody::factory(fopen(
-            __DIR__ . '/Resources/forecast.json', 'r')
+                __DIR__ . '/Resources/forecast.json', 'r')
         );
         $mockResponse->setBody($mockResponseBody);
         $plugin = new \Guzzle\Plugin\Mock\MockPlugin();
@@ -34,8 +37,12 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
             new \JMS\Serializer\EventDispatcher\EventDispatcher()
         );
 
-        $manager = new \CTI\ForecastBundle\ForecastManager($client, $serializer);
-        $data = $manager->getForecast(37.8267, -122.423);
+        $this->manager = new \CTI\ForecastBundle\ForecastManager($client, $serializer);
+    }
+
+    public function testGetForecast() {
+
+        $data = $this->manager->getForecast(37.8267, -122.423);
 
         /** @var $data \CTI\ForecastBundle\Forecast\Response */
 
@@ -77,6 +84,39 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $firstDay = reset($data->getDaily()->getData());
         $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $firstDay);
         $this->assertEquals(1409641200, $firstDay->getTime());
+    }
+
+    public function testGetDailyWeatherDetails()
+    {
+        $data = $this->manager->getDailyWeatherDetails(37.8267, -122.423, '2014-09-02T12:00:00');
+        $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $data);
+        $this->assertObjectHasAttribute('icon', $data);
+        $this->assertObjectHasAttribute('temperatureMin', $data);
+        $this->assertObjectHasAttribute('temperatureMax', $data);
+        $this->assertObjectHasAttribute('windSpeed', $data);
+        $this->assertObjectHasAttribute('precipProbability', $data);
+        $this->assertEquals(1409641200, $data->getTime());
+        $this->assertEquals('fog', $data->getIcon());
+        //$this->assertEquals(58.36, $data->getTemperatureMin());
+        //$this->assertEquals(65.56, $data->getTemperatureMax());
+        //$this->assertEquals(7.67, $data->getWindSpeed());
+        $this->assertEquals(0, $data->getPrecipProbability());
+    }
+
+    public function testGetHourlyWeatherDetails()
+    {
+        $data = $this->manager->getHourlyWeatherDetails(37.8267, -122.423, '2014-09-04T12:00:00');
+        $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $data);
+        $this->assertObjectHasAttribute('time', $data);
+        $this->assertObjectHasAttribute('icon', $data);
+        $this->assertObjectHasAttribute('temperature', $data);
+        $this->assertObjectHasAttribute('windSpeed', $data);
+        $this->assertObjectHasAttribute('precipProbability', $data);
+        $this->assertEquals(1409832000, $data->getTime());
+        $this->assertEquals('partly-cloudy-night', $data->getIcon());
+        $this->assertEquals(59.33, $data->getTemperature());
+        //$this->assertEquals(3.59, $data->getWindSpeed());
+        $this->assertEquals(0, $data->getPrecipProbability());
     }
 
 }
