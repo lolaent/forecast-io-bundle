@@ -125,7 +125,7 @@ class Response
 
     /**
      * @param null|string $neededDay
-     * @return DataBlock
+     * @return DataPoint | null
      */
     public function getDaily($neededDay = null)
     {
@@ -144,11 +144,13 @@ class Response
                 return $dataPoint;
             }
         }
+
+        return null;
     }
 
     /**
      * @param null|string $neededTime
-     * @return DataBlock
+     * @return DataPoint | null
      */
     public function getHourly($neededTime = null)
     {
@@ -167,6 +169,8 @@ class Response
                 return $dataPoint;
             }
         }
+
+        return null;
     }
 
 }
