@@ -17,7 +17,7 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $client = new \Guzzle\Http\Client();
         $client->addSubscriber($plugin);
 
-        $namingStrategy = new \JMS\Serializer\Naming\SerializedNameAnnotationStrategy(new \JMS\Serializer\Naming\CamelCaseNamingStrategy());
+        $namingStrategy = new \JMS\Serializer\Naming\SerializedNameAnnotationStrategy(new \JMS\Serializer\Naming\IdenticalPropertyNamingStrategy());
         $serializer = new \JMS\Serializer\Serializer(
             new Metadata\MetadataFactory(new \JMS\Serializer\Metadata\Driver\AnnotationDriver(new \Doctrine\Common\Annotations\AnnotationReader())),
             new \JMS\Serializer\Handler\HandlerRegistry(),

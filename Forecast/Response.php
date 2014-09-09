@@ -124,19 +124,49 @@ class Response
     }
 
     /**
+     * @param null|string $neededDay
      * @return DataBlock
      */
-    public function getDaily()
+    public function getDaily($neededDay = null)
     {
-        return $this->daily;
+        //return all records if there's no criteria specified
+        if (is_null($neededDay)) {
+            return $this->daily;
+        }
+
+        $searched = new \DateTime($neededDay, new \DateTimeZone($this->getTimezone()));
+        foreach ($this->daily->getData() as $dataPoint) {
+            /** @var \CTI\ForecastBundle\Forecast\DataPoint $dataPoint  */
+            $returned = \DateTime::createFromFormat( 'U', $dataPoint->getTime());
+            $returned->setTimezone(new \DateTimeZone($this->getTimezone()));
+            $returned->setTime(0, 0);
+            if ($returned == $searched) {
+                return $dataPoint;
+            }
+        }
     }
 
     /**
+     * @param null|string $neededTime
      * @return DataBlock
      */
-    public function getHourly()
+    public function getHourly($neededTime = null)
     {
-        return $this->hourly;
+        //return all records if there's no criteria specified
+        if (is_null($neededTime)) {
+            return $this->hourly;
+        }
+
+        $searched = new \DateTime($neededTime, new \DateTimeZone($this->getTimezone()));
+        $searched->setTime($searched->format('G'), 0);
+        foreach ($this->hourly->getData() as $dataPoint) {
+            /** @var \CTI\ForecastBundle\Forecast\DataPoint $dataPoint  */
+            $returned = \DateTime::createFromFormat( 'U', $dataPoint->getTime());
+            $returned->setTimezone(new \DateTimeZone($this->getTimezone()));
+            if ($returned == $searched) {
+                return $dataPoint;
+            }
+        }
     }
 
 }
