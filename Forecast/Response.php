@@ -124,23 +124,20 @@ class Response
     }
 
     /**
-     * @param null|string $neededDay
+     * @param null|\DateTime $neededDay
      * @return DataPoint | null
      */
-    public function getDaily($neededDay = null)
+    public function getDaily(\DateTime $neededDay = null)
     {
         //return all records if there's no criteria specified
         if (is_null($neededDay)) {
             return $this->daily;
         }
 
-        $searched = new \DateTime($neededDay, new \DateTimeZone($this->getTimezone()));
         foreach ($this->daily->getData() as $dataPoint) {
             /** @var \CTI\ForecastBundle\Forecast\DataPoint $dataPoint  */
             $returned = \DateTime::createFromFormat( 'U', $dataPoint->getTime());
-            $returned->setTimezone(new \DateTimeZone($this->getTimezone()));
-            $returned->setTime(0, 0);
-            if ($returned == $searched) {
+            if ($returned == $neededDay) {
                 return $dataPoint;
             }
         }
@@ -149,23 +146,23 @@ class Response
     }
 
     /**
-     * @param null|string $neededTime
+     * @param null|\DateTime $neededTime
      * @return DataPoint | null
      */
-    public function getHourly($neededTime = null)
+    public function getHourly(\DateTime $neededTime = null)
     {
         //return all records if there's no criteria specified
         if (is_null($neededTime)) {
             return $this->hourly;
         }
 
-        $searched = new \DateTime($neededTime, new \DateTimeZone($this->getTimezone()));
-        $searched->setTime($searched->format('G'), 0);
+        //set the minutes of the searched time to 0:
+        $neededTime->setTime($neededTime->format('G'), 0);
+
         foreach ($this->hourly->getData() as $dataPoint) {
             /** @var \CTI\ForecastBundle\Forecast\DataPoint $dataPoint  */
             $returned = \DateTime::createFromFormat( 'U', $dataPoint->getTime());
-            $returned->setTimezone(new \DateTimeZone($this->getTimezone()));
-            if ($returned == $searched) {
+            if ($returned == $neededTime) {
                 return $dataPoint;
             }
         }
