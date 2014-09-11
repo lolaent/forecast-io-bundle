@@ -124,19 +124,50 @@ class Response
     }
 
     /**
-     * @return DataBlock
+     * @param null|\DateTime $neededDay
+     * @return DataPoint | null
      */
-    public function getDaily()
+    public function getDaily(\DateTime $neededDay = null)
     {
-        return $this->daily;
+        //return all records if there's no criteria specified
+        if (is_null($neededDay)) {
+            return $this->daily;
+        }
+
+        foreach ($this->daily->getData() as $dataPoint) {
+            /** @var \CTI\ForecastBundle\Forecast\DataPoint $dataPoint  */
+            $returned = \DateTime::createFromFormat( 'U', $dataPoint->getTime());
+            if ($returned == $neededDay) {
+                return $dataPoint;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * @return DataBlock
+     * @param null|\DateTime $neededTime
+     * @return DataPoint | null
      */
-    public function getHourly()
+    public function getHourly(\DateTime $neededTime = null)
     {
-        return $this->hourly;
+        //return all records if there's no criteria specified
+        if (is_null($neededTime)) {
+            return $this->hourly;
+        }
+
+        //set the minutes of the searched time to 0:
+        $neededTime->setTime($neededTime->format('G'), 0);
+
+        foreach ($this->hourly->getData() as $dataPoint) {
+            /** @var \CTI\ForecastBundle\Forecast\DataPoint $dataPoint  */
+            $returned = \DateTime::createFromFormat( 'U', $dataPoint->getTime());
+            if ($returned == $neededTime) {
+                return $dataPoint;
+            }
+        }
+
+        return null;
     }
 
 }

@@ -68,4 +68,46 @@ class ForecastManager
         );
     }
 
+    /**
+     * Returns the forecast at a given time
+     *
+     * @param int    $latitude
+     * @param int    $longitude
+     * @param string $time
+     * @return Response
+     */
+    public function getForecastByTime($latitude, $longitude, $time)
+    {
+        $url = sprintf(
+            'https://api.forecast.io/forecast/%s/%s,%s,%s?exclude=minutely,flags,alerts',
+            'e711d8782f6c4c7a7e9c8335721bacde',
+            $latitude,
+            $longitude,
+            $time
+        );
+
+        $request = $this->client->createRequest(
+            'GET',
+            $url,
+            array(
+                'config' => array(
+                    // prevents SSL certification problems on Yosemite
+                    'curl' => array(
+                        CURLOPT_SSL_VERIFYPEER => true,
+                        CURLOPT_CAINFO         => __DIR__ . '/Resources/DigiCertGlobalRootCA',
+                    )
+                )
+            )
+        );
+
+        /** @var Response $response */
+        $response = $this->client->send($request);
+
+        return $this->serializer->deserialize(
+            $response->getBody(),
+            'CTI\ForecastBundle\Forecast\Response',
+            'json'
+        );
+    }
+
 }
