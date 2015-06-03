@@ -43,7 +43,7 @@ class ForecastManager
     public function getForecast($latitude, $longitude) {
         $url = sprintf(
             'https://api.forecast.io/forecast/%s/%s,%s',
-            'e711d8782f6c4c7a7e9c8335721bacde',
+            $this->apiKey,
             $latitude,
             $longitude
         );
@@ -84,7 +84,7 @@ class ForecastManager
     {
         $url = sprintf(
             'https://api.forecast.io/forecast/%s/%s,%s,%s?exclude=minutely,flags,alerts',
-            'e711d8782f6c4c7a7e9c8335721bacde',
+            $this->apiKey,
             $latitude,
             $longitude,
             $time
