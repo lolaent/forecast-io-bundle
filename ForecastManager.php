@@ -19,16 +19,20 @@ class ForecastManager
      */
     protected $serializer;
 
+    protected $apiKey;
+
     /**
      * Class constructor
      *
-     * @param ClientInterface $client
+     * @param ClientInterface     $client
      * @param SerializerInterface $serializer
+     * @param string              $apiKey
      */
-    public function __construct(ClientInterface $client, SerializerInterface $serializer = null)
+    public function __construct(ClientInterface $client, SerializerInterface $serializer = null, $apiKey)
     {
         $this->client = $client;
         $this->serializer = $serializer;
+        $this->apiKey = $apiKey;
     }
 
     /**
