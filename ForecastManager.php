@@ -19,16 +19,20 @@ class ForecastManager
      */
     protected $serializer;
 
+    protected $apiKey;
+
     /**
      * Class constructor
      *
-     * @param ClientInterface $client
+     * @param ClientInterface     $client
      * @param SerializerInterface $serializer
+     * @param string              $apiKey
      */
-    public function __construct(ClientInterface $client, SerializerInterface $serializer = null)
+    public function __construct(ClientInterface $client, SerializerInterface $serializer = null, $apiKey)
     {
         $this->client = $client;
         $this->serializer = $serializer;
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -39,7 +43,7 @@ class ForecastManager
     public function getForecast($latitude, $longitude) {
         $url = sprintf(
             'https://api.forecast.io/forecast/%s/%s,%s',
-            'e711d8782f6c4c7a7e9c8335721bacde',
+            $this->apiKey,
             $latitude,
             $longitude
         );
@@ -80,7 +84,7 @@ class ForecastManager
     {
         $url = sprintf(
             'https://api.forecast.io/forecast/%s/%s,%s,%s?exclude=minutely,flags,alerts',
-            'e711d8782f6c4c7a7e9c8335721bacde',
+            $this->apiKey,
             $latitude,
             $longitude,
             $time

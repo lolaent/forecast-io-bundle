@@ -2,6 +2,8 @@ parameters:
   cti_forecast.class: CTI\ForecastBundle\ForecastManager
   cti_forecast.rest_client.class: Guzzle\Http\Client
   jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+  # In order to use the bundle you need to generate a valid key from https://developer.forecast.io/register
+  forecast_io_api_key: dummyDefaultApiKeyValue
 
 services:
   # poor man's rest client, the naked Guzzle one
@@ -11,4 +13,4 @@ services:
   # main forecast service
   cti_forecast:
     class: %cti_forecast.class%
-    arguments: [@cti_forecast.rest_client, @jms_serializer]
+    arguments: [@cti_forecast.rest_client, @jms_serializer, %forecast_io_api_key%]
