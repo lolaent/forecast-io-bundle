@@ -34,7 +34,7 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
             new \JMS\Serializer\EventDispatcher\EventDispatcher()
         );
 
-        $manager = new \CTI\ForecastBundle\ForecastManager($client, $serializer);
+        $manager = new \CTI\ForecastBundle\ForecastManager($client, $serializer, 'dummyDefaultApiKeyValue');
         $data = $manager->getForecast(37.8267, -122.423);
 
         /** @var $data \CTI\ForecastBundle\Forecast\Response */
@@ -64,8 +64,9 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataBlock', $data->getHourly());
         $this->assertInternalType('array', $data->getHourly()->getData());
         $this->assertEquals(49, count($data->getHourly()->getData()));
+        $hourlyData = $data->getHourly()->getData();
         /** @var \CTI\ForecastBundle\Forecast\DataPoint $firstHour */
-        $firstHour = reset($data->getHourly()->getData());
+        $firstHour = reset($hourlyData);
         $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $firstHour);
         $this->assertEquals(1409688000, $firstHour->getTime());
 
@@ -73,8 +74,9 @@ class ForecastManagerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataBlock', $data->getDaily());
         $this->assertInternalType('array', $data->getDaily()->getData());
         $this->assertEquals(8, count($data->getDaily()->getData()));
+        $dailyData = $data->getDaily()->getData();
         /** @var \CTI\ForecastBundle\Forecast\DataPoint $firstDay */
-        $firstDay = reset($data->getDaily()->getData());
+        $firstDay = reset($dailyData);
         $this->assertInstanceOf('CTI\ForecastBundle\Forecast\DataPoint', $firstDay);
         $this->assertEquals(1409641200, $firstDay->getTime());
     }
